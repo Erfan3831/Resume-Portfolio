@@ -565,32 +565,34 @@
   $(window).on('scroll resize', activateNav);
 
   // ----- Smooth scroll on click -----
-  $('.nav-link').on('click', function (e) {
+  // Smooth Scroll
+$('.nav-link').on('click', function (e) {
     const target = $(this).attr('href');
 
-    // Only handle internal anchors
     if (target && target.startsWith('#') && target.length > 1) {
-      const $target = $(target);
-      if ($target.length) {
-        e.preventDefault();
+        const $target = $(target);
 
-        // Close mobile menu if open
-        const navbar = document.querySelector('.navbar-collapse');
+        if ($target.length) {
+            e.preventDefault();
 
-        const bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbar);
+            // Close mobile menu
+            const navbar = document.querySelector('.navbar-collapse');
+            const bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbar);
+            bsCollapse.hide();
 
-        bsCollapse.hide();
+            // Calculate the correct scroll position
+            const navbarHeight = $('.navbar').outerHeight();
+            const targetPosition = $target.offset().top - navbarHeight;
 
-        $('html, body').animate({
-          scrollTop: $target.offset().top - navbarOffset + 10
-        }, 600);
+            $('html, body').animate({
+                scrollTop: targetPosition
+            }, 600);
 
-        // Manually set active immediately on click
-        $('.nav-link').removeClass('active');
-        $(this).addClass('active');
-      }
+            $('.nav-link').removeClass('active');
+            $(this).addClass('active');
+        }
     }
-  });
+});
 
   });
 </script>
